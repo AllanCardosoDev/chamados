@@ -1,0 +1,15 @@
+﻿=== DIAGNOSTICO CBMAM ITSM - 06/03/2026 10:58:35 ===
+
+[NODE] OK - v24.15.0 - C:\Program Files\nodejs\node.exe
+[NPM]  OK - v11.14.1
+[NSSM] NAO ENCONTRADO - baixe em https://nssm.cc
+[SERVICO] itsm-backend: NAO EXISTE
+[PORTA 4000] LIVRE (backend NAO esta rodando)
+[API] FALHA - Impossível conectar-se ao servidor remoto
+[BACKEND node_modules] OK
+[FRONTEND node_modules] OK
+[FRONTEND dist] OK - build existe
+[IIS SITE] itsm.cbm.am.gov.br: Started - C:\inetpub\vhosts\cbm.am.gov.br\itsm\frontend\dist
+[IIS POOL] itsm-cbmam: Started
+
+=== FIM DO DIAGNOSTICO ===

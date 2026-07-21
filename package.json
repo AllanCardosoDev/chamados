@@ -1,0 +1,13 @@
+{
+  "name": "cbmam-chamados-intranet",
+  "private": true,
+  "description": "Sistema Unificado de Chamados CBMAM - BM-6 Tecnologia da Informação",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev": "npx -y concurrently -k -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "start": "cd backend && node src/server.js",
+    "build": "cd frontend && npm run build"
+  }
+}

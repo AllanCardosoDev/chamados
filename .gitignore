@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+*.sqlite
+dev.sqlite
+*.log
+tmp/
+
+# Uploads, anexos e logs de runtime — não devem ir para o repositório
+uploads/
+screenshots/
+logs/
+
+# Manuais/PDFs não versionados
+*.pdf
