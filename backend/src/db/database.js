@@ -144,7 +144,7 @@ export async function initDb() {
   try {
     await conn.query(`
       CREATE TABLE IF NOT EXISTS users (
-        id           INTEGER PRIMARY KEY AUTOINCREMENT,
+        id           INTEGER PRIMARY KEY AUTO_INCREMENT,
         name         VARCHAR(255)  NOT NULL,
         email        VARCHAR(255)  UNIQUE NOT NULL,
         password_hash VARCHAR(255) NOT NULL,
@@ -161,7 +161,7 @@ export async function initDb() {
 
     await conn.query(`
       CREATE TABLE IF NOT EXISTS categories (
-        id                   INTEGER PRIMARY KEY AUTOINCREMENT,
+        id                   INTEGER PRIMARY KEY AUTO_INCREMENT,
         name                 VARCHAR(255) NOT NULL,
         type                 VARCHAR(50)  NOT NULL DEFAULT 'INCIDENT',
         sla_response_hours   INT          NOT NULL DEFAULT 2,
@@ -172,7 +172,7 @@ export async function initDb() {
 
     await conn.query(`
       CREATE TABLE IF NOT EXISTS tickets (
-        id                 INTEGER PRIMARY KEY AUTOINCREMENT,
+        id                 INTEGER PRIMARY KEY AUTO_INCREMENT,
         protocol           VARCHAR(50) UNIQUE NOT NULL,
         requester_id       INT NOT NULL,
         analyst_id         INT,
@@ -195,7 +195,7 @@ export async function initDb() {
 
     await conn.query(`
       CREATE TABLE IF NOT EXISTS ticket_comments (
-        id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        id         INTEGER PRIMARY KEY AUTO_INCREMENT,
         ticket_id  INT  NOT NULL,
         author_id  INT  NOT NULL,
         body       TEXT NOT NULL,
@@ -206,7 +206,7 @@ export async function initDb() {
 
     await conn.query(`
       CREATE TABLE IF NOT EXISTS ticket_history (
-        id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        id         INTEGER PRIMARY KEY AUTO_INCREMENT,
         ticket_id  INT NOT NULL,
         actor_id   INT,
         event_type VARCHAR(50) NOT NULL,
@@ -218,7 +218,7 @@ export async function initDb() {
 
     await conn.query(`
       CREATE TABLE IF NOT EXISTS knowledge_articles (
-        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        id          INTEGER PRIMARY KEY AUTO_INCREMENT,
         title       VARCHAR(500) NOT NULL,
         category_id INT,
         content     TEXT         NOT NULL,
@@ -231,7 +231,7 @@ export async function initDb() {
     `);
     await conn.query(`
       CREATE TABLE IF NOT EXISTS ticket_attachments (
-        id            INTEGER PRIMARY KEY AUTOINCREMENT,
+        id            INTEGER PRIMARY KEY AUTO_INCREMENT,
         ticket_id     INT NOT NULL,
         uploader_id   INT NOT NULL,
         original_name VARCHAR(500) NOT NULL,
@@ -245,7 +245,7 @@ export async function initDb() {
 
     await conn.query(`
       CREATE TABLE IF NOT EXISTS ticket_chat (
-        id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        id         INTEGER PRIMARY KEY AUTO_INCREMENT,
         ticket_id  INT NOT NULL,
         sender_id  INT NOT NULL,
         message    TEXT NOT NULL,
@@ -256,7 +256,7 @@ export async function initDb() {
 
     await conn.query(`
       CREATE TABLE IF NOT EXISTS services (
-        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        id          INTEGER PRIMARY KEY AUTO_INCREMENT,
         name        VARCHAR(255) NOT NULL UNIQUE,
         status      VARCHAR(20) NOT NULL DEFAULT 'OPERATIONAL',
         description VARCHAR(500),
@@ -281,7 +281,7 @@ export async function initDb() {
     // Criar tabela de histórico
     await conn.query(`
       CREATE TABLE IF NOT EXISTS service_status_history (
-        id           INTEGER PRIMARY KEY AUTOINCREMENT,
+        id           INTEGER PRIMARY KEY AUTO_INCREMENT,
         service_name VARCHAR(255) NOT NULL,
         status       VARCHAR(20)  NOT NULL,
         description  VARCHAR(500),
