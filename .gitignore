@@ -13,3 +13,6 @@ logs/
 
 # Manuais/PDFs não versionados
 *.pdf
+
+# VSCode / IDE local configs
+.vscode/
