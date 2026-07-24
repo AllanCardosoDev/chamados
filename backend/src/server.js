@@ -35,6 +35,19 @@ try {
 const app  = express();
 const PORT = process.env.PORT || 4000;
 
+// Normalizar prefixo de subpasta IIS (/chamados) para rotas API e arquivos estáticos
+app.use((req, res, next) => {
+  if (req.url.startsWith("/chamados/")) {
+    req.url = req.url.substring(9);
+    if (!req.url.startsWith("/")) {
+      req.url = "/" + req.url;
+    }
+  } else if (req.url === "/chamados") {
+    req.url = "/";
+  }
+  next();
+});
+
 app.use(cors({
   origin: [
     "http://localhost:5173",
