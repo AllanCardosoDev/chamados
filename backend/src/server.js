@@ -93,14 +93,14 @@ app.use("/api/kb-direct-upload", (req, res, next) => {
   return knowledgeRoutes(req, res, next);
 });
 
-app.use("/api/auth",       authRoutes);
-app.use("/api/tickets",    ticketsRoutes);
-app.use("/api/categories", categoriesRoutes);
-app.use("/api/knowledge",  knowledgeRoutes);
-app.use("/api/reports",    reportsRoutes);
-app.use("/api/attachments", attachmentsRoutes);
-app.use("/api/services",    servicesRoutes);
-app.use("/api/users",       usersRoutes);
+app.use(["/api/auth",       "/chamados/api/auth"],       authRoutes);
+app.use(["/api/tickets",    "/chamados/api/tickets"],    ticketsRoutes);
+app.use(["/api/categories", "/chamados/api/categories"], categoriesRoutes);
+app.use(["/api/knowledge",  "/chamados/api/knowledge"],  knowledgeRoutes);
+app.use(["/api/reports",    "/chamados/api/reports"],    reportsRoutes);
+app.use(["/api/attachments","/chamados/api/attachments"],attachmentsRoutes);
+app.use(["/api/services",   "/chamados/api/services"],   servicesRoutes);
+app.use(["/api/users",      "/chamados/api/users"],      usersRoutes);
 
 // Servir os arquivos estáticos do frontend (frontend/dist) e SPA Fallback
 const frontendDistPath = path.resolve(__dirname, "..", "..", "frontend", "dist");

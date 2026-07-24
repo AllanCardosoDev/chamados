@@ -37,11 +37,8 @@ function isSupport(user) {
 function useLocalidades() {
   const [localidades, setLocalidades] = useState([]);
   useEffect(() => {
-    fetch("/localidades.json")
-      .then(res => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
+    fetch("localidades.json")
+      .then(res => res.ok ? res.json() : fetch("/chamados/localidades.json").then(r => r.json()))
       .then(data => {
         const list = data?.unidades || data;
         if (Array.isArray(list)) {
