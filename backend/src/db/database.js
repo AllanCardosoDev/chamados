@@ -1,5 +1,4 @@
 import mysql from "mysql2/promise";
-import sqlite3 from "sqlite3";
 import bcrypt from "bcryptjs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -14,7 +13,8 @@ dotenv.config();
 let pool;
 let isSqlite = false;
 
-function createSqliteAdapter() {
+async function createSqliteAdapter() {
+  const sqlite3 = (await import("sqlite3")).default;
   const dbFile = path.resolve(__dirname, "../../dev.sqlite");
   const sdb = new sqlite3.Database(dbFile);
 
@@ -130,7 +130,7 @@ export async function getDb() {
       console.log("✅ Conectado ao banco de dados MySQL com sucesso.");
     } catch (err) {
       console.warn("⚠️ MySQL não disponível localmente. Alternando para modo SQLite local de desenvolvimento (dev.sqlite).");
-      pool = createSqliteAdapter();
+      pool = await createSqliteAdapter();
       isSqlite = true;
     }
   }
