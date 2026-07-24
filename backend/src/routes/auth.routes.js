@@ -41,9 +41,10 @@ router.post("/login", async (req, res) => {
       let apiSuccess = false;
       let apiData = null;
 
-      const primaryApiUrl = process.env.SIGDP_API_URL || "http://127.0.0.1:8000/sigdp/api/login";
+      const primaryApiUrl = process.env.SIGDP_API_URL || "https://www.cbm.am.gov.br/sigdp/api/login";
       const fallbackApiUrl = process.env.SIGDP_API_FALLBACK_URL || "https://drhsistema-production.up.railway.app/api/login";
-      const apiEndpoints = [primaryApiUrl, fallbackApiUrl].filter(Boolean);
+      const localSigdpUrl = "http://127.0.0.1:8000/sigdp/api/login";
+      const apiEndpoints = [primaryApiUrl, fallbackApiUrl, localSigdpUrl].filter(Boolean);
 
       for (const endpoint of apiEndpoints) {
         const controller = new AbortController();
