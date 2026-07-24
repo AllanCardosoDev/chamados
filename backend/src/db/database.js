@@ -298,8 +298,6 @@ export async function initDb() {
 
 async function seed() {
   const db = await getDb();
-  const count = await db.get("SELECT COUNT(*) AS total FROM users");
-  if (count.total > 0) return;
 
   // Seed services
   await db.run("INSERT IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['SIGBM', 'OPERATIONAL', 'Sistemas Corporativos', 2]);
@@ -309,22 +307,25 @@ async function seed() {
   await db.run("INSERT IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['Rede Wi-Fi', 'OPERATIONAL', 'Infraestrutura e Redes', 3]);
   await db.run("INSERT IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['Sistemas Internos CBMAM (SIGED, SIGDP)', 'OPERATIONAL', 'Sistemas Corporativos', 2]);
 
-  const passAdmin    = await bcrypt.hash("admin123",    10);
-  const passAnalista = await bcrypt.hash("analista123", 10);
-  const passUsuario  = await bcrypt.hash("usuario123",  10);
+  const admin = await db.get("SELECT id FROM users WHERE email=?", ["admin@cbmam.am.gov.br"]);
+  if (!admin) {
+    const passAdmin    = await bcrypt.hash("admin123",    10);
+    const passAnalista = await bcrypt.hash("analista123", 10);
+    const passUsuario  = await bcrypt.hash("usuario123",  10);
 
-  await db.run(
-    "INSERT INTO users(name,email,password_hash,role,rank,registration,cpf,unit,phone) VALUES (?,?,?,?,?,?,?,?,?)",
-    ["Administrador BM-6", "admin@cbmam.am.gov.br", passAdmin, "ADMIN", "Oficial", "000001", "000.000.000-00", "BM-6 TI", "(92) 99999-0001"]
-  );
-  await db.run(
-    "INSERT INTO users(name,email,password_hash,role,rank,registration,cpf,unit,phone) VALUES (?,?,?,?,?,?,?,?,?)",
-    ["Analista BM-6", "analista@cbmam.am.gov.br", passAnalista, "ANALYST", "Soldado", "000002", "000.000.000-02", "BM-6 TI", "(92) 99999-0002"]
-  );
-  await db.run(
-    "INSERT INTO users(name,email,password_hash,role,rank,registration,cpf,unit,phone) VALUES (?,?,?,?,?,?,?,?,?)",
-    ["Soldado João Silva", "usuario@cbmam.am.gov.br", passUsuario, "USER", "Soldado", "000003", "000.000.000-03", "1º GBM - Manaus", "(92) 99999-0003"]
-  );
+    await db.run(
+      "INSERT IGNORE INTO users(name,email,password_hash,role,rank,registration,cpf,unit,phone) VALUES (?,?,?,?,?,?,?,?,?)",
+      ["Administrador BM-6", "admin@cbmam.am.gov.br", passAdmin, "ADMIN", "Oficial", "000001", "000.000.000-00", "BM-6 TI", "(92) 99999-0001"]
+    );
+    await db.run(
+      "INSERT IGNORE INTO users(name,email,password_hash,role,rank,registration,cpf,unit,phone) VALUES (?,?,?,?,?,?,?,?,?)",
+      ["Analista BM-6", "analista@cbmam.am.gov.br", passAnalista, "ANALYST", "Soldado", "000002", "000.000.000-02", "BM-6 TI", "(92) 99999-0002"]
+    );
+    await db.run(
+      "INSERT IGNORE INTO users(name,email,password_hash,role,rank,registration,cpf,unit,phone) VALUES (?,?,?,?,?,?,?,?,?)",
+      ["Soldado João Silva", "usuario@cbmam.am.gov.br", passUsuario, "USER", "Soldado", "000003", "000.000.000-03", "1º GBM - Manaus", "(92) 99999-0003"]
+    );
+  }
 
   for (const c of [
     ["Impressoras",         "INCIDENT", 2, 8],
