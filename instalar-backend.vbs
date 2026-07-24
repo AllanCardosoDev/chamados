@@ -29,9 +29,12 @@ If Not oFSO.FileExists("C:\Program Files\nodejs\node.exe") Then
     WScript.Quit 1
 End If
 
-' Verifica se o server.js existe
-Dim sScript
-sScript = "C:\inetpub\vhosts\cbm.am.gov.br\chamados\backend\src\server.js"
+' Obtem o diretorio atual do script dinamicamente
+Dim sRootDir, sBackendDir, sScript
+sRootDir    = oFSO.GetParentFolderName(WScript.ScriptFullName)
+sBackendDir = sRootDir & "\backend"
+sScript     = sBackendDir & "\src\server.js"
+
 If Not oFSO.FileExists(sScript) Then
     MsgBox "ERRO: server.js nao encontrado em:" & vbCrLf & sScript, _
            vbCritical, "CBMAM Chamados"
@@ -71,7 +74,7 @@ sXml = "<?xml version=""1.0"" encoding=""UTF-16""?>" & vbCrLf & _
 "    <Exec>" & vbCrLf & _
 "      <Command>C:\PROGRA~1\nodejs\node.exe</Command>" & vbCrLf & _
 "      <Arguments>src\server.js</Arguments>" & vbCrLf & _
-"      <WorkingDirectory>C:\inetpub\vhosts\cbm.am.gov.br\chamados\backend</WorkingDirectory>" & vbCrLf & _
+"      <WorkingDirectory>" & sBackendDir & "</WorkingDirectory>" & vbCrLf & _
 "    </Exec>" & vbCrLf & _
 "  </Actions>" & vbCrLf & _
 "</Task>"
