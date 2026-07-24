@@ -49,7 +49,7 @@ app.use(cors({
 app.use(express.json({ limit: "10mb" }));
 app.use(morgan("dev"));
 
-app.get("/",            (req, res) => res.json({ app: "CBMAM Chamados API", status: "online" }));
+app.get("/api",          (req, res) => res.json({ app: "CBMAM Chamados API", status: "online" }));
 
 // Health check completo: valida conexão com o banco MySQL
 app.get("/api/health", async (req, res) => {
