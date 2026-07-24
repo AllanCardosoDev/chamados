@@ -27,40 +27,49 @@ function isCPF(val) {
 
 router.post("/login", async (req, res) => {
   try {
-    const { email, cpf, password } = req.body;
-    const usernameInput = (cpf || email || req.body.username || "").trim();
+    const { email, cpf, password } = req.body || {};
+    const usernameInput = (cpf || email || (req.body && req.body.username) || "").trim();
+
+    if (!usernameInput || !password) {
+      return res.status(400).json({ message: "CPF/E-mail e senha são obrigatórios" });
+    }
+
     const db = await getDb();
 
-  if (isCPF(usernameInput)) {
-    const formattedCpf = formatCPF(usernameInput);
-    let apiSuccess = false;
-    let apiData = null;
+    if (isCPF(usernameInput)) {
+      const formattedCpf = formatCPF(usernameInput);
+      let apiSuccess = false;
+      let apiData = null;
 
-    const primaryApiUrl = process.env.SIGDP_API_URL || "http://127.0.0.1:8000/sigdp/api/login";
-    const fallbackApiUrl = process.env.SIGDP_API_FALLBACK_URL || "https://drhsistema-production.up.railway.app/api/login";
-    const apiEndpoints = [primaryApiUrl, fallbackApiUrl].filter(Boolean);
+      const primaryApiUrl = process.env.SIGDP_API_URL || "http://127.0.0.1:8000/sigdp/api/login";
+      const fallbackApiUrl = process.env.SIGDP_API_FALLBACK_URL || "https://drhsistema-production.up.railway.app/api/login";
+      const apiEndpoints = [primaryApiUrl, fallbackApiUrl].filter(Boolean);
 
-    for (const endpoint of apiEndpoints) {
-      try {
-        const apiRes = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ cpf: formattedCpf, senha: password }),
-          signal: AbortSignal.timeout(6000)
-        });
+      for (const endpoint of apiEndpoints) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        try {
+          const apiRes = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cpf: formattedCpf, senha: password }),
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
 
-        if (apiRes.ok) {
-          const data = await apiRes.json();
-          if (data && (data.status === "sucesso" || data.status === "success" || data.sucesso === true)) {
-            apiSuccess = true;
-            apiData = data.usuario || data.user || data.data;
-            break;
+          if (apiRes.ok) {
+            const data = await apiRes.json();
+            if (data && (data.status === "sucesso" || data.status === "success" || data.sucesso === true)) {
+              apiSuccess = true;
+              apiData = data.usuario || data.user || data.data;
+              break;
+            }
           }
+        } catch (err) {
+          clearTimeout(timeoutId);
+          console.error(`Erro ao conectar na API de Login (${endpoint}):`, err.message);
         }
-      } catch (err) {
-        console.error(`Erro ao conectar na API de Login (${endpoint}):`, err.message);
       }
-    }
 
     if (apiSuccess && apiData) {
       let user = null;
