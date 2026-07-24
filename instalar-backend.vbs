@@ -105,10 +105,10 @@ oShell.Run "schtasks /Run /TN ""CBMAM-ITSM-Backend""", 0, True
 ' Aguarda 4 segundos para o Node iniciar
 WScript.Sleep 4000
 
-MsgBox "Backend CBMAM ITSM instalado e iniciado!" & vbCrLf & vbCrLf & _
+MsgBox "Backend CBMAM Chamados instalado e iniciado!" & vbCrLf & vbCrLf & _
        "- Tarefa: CBMAM-ITSM-Backend" & vbCrLf & _
        "- Inicia automaticamente a cada boot" & vbCrLf & _
        "- Reinicia sozinho em caso de falha" & vbCrLf & vbCrLf & _
-       "Acesse: http://itsm.cbm.am.gov.br" & vbCrLf & _
-       "Saude da API: http://itsm.cbm.am.gov.br/api/health", _
-       vbInformation, "CBMAM ITSM"
+       "Acesse: https://www.cbm.am.gov.br/chamados/" & vbCrLf & _
+       "Saude da API: https://www.cbm.am.gov.br/chamados/api/health", _
+       vbInformation, "CBMAM Chamados"
