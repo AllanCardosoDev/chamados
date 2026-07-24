@@ -1,4 +1,8 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+const API_URL = import.meta.env.VITE_API_URL || (
+  typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1"
+    ? `${window.location.origin}/chamados/api`
+    : "http://localhost:4000/api"
+);
 
 export function getToken() {
   return localStorage.getItem("cbmam_chamados_token");

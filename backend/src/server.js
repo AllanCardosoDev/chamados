@@ -49,13 +49,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://itsm.cbm.am.gov.br",
-    "https://chamados.cbm.am.gov.br",
-    "https://www.cbm.am.gov.br",
-  ],
+  origin: true,
   credentials: true,
 }));
 
