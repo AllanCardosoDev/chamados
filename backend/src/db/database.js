@@ -302,12 +302,12 @@ async function seed() {
   if (count.total > 0) return;
 
   // Seed services
-  await db.run("INSERT OR IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['SIGBM', 'OPERATIONAL', 'Sistemas Corporativos', 2]);
-  await db.run("INSERT OR IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['E-mail Institucional', 'OPERATIONAL', 'Sistemas Corporativos', 5]);
-  await db.run("INSERT OR IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['Internet Corporativa', 'OPERATIONAL', 'Infraestrutura e Redes', 3]);
-  await db.run("INSERT OR IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['Telefonia', 'OPERATIONAL', 'Infraestrutura e Redes', 6]);
-  await db.run("INSERT OR IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['Rede Wi-Fi', 'OPERATIONAL', 'Infraestrutura e Redes', 3]);
-  await db.run("INSERT OR IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['Sistemas Internos CBMAM (SIGED, SIGDP)', 'OPERATIONAL', 'Sistemas Corporativos', 2]);
+  await db.run("INSERT IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['SIGBM', 'OPERATIONAL', 'Sistemas Corporativos', 2]);
+  await db.run("INSERT IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['E-mail Institucional', 'OPERATIONAL', 'Sistemas Corporativos', 5]);
+  await db.run("INSERT IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['Internet Corporativa', 'OPERATIONAL', 'Infraestrutura e Redes', 3]);
+  await db.run("INSERT IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['Telefonia', 'OPERATIONAL', 'Infraestrutura e Redes', 6]);
+  await db.run("INSERT IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['Rede Wi-Fi', 'OPERATIONAL', 'Infraestrutura e Redes', 3]);
+  await db.run("INSERT IGNORE INTO services(name,status,category,category_id) VALUES (?,?,?,?)", ['Sistemas Internos CBMAM (SIGED, SIGDP)', 'OPERATIONAL', 'Sistemas Corporativos', 2]);
 
   const passAdmin    = await bcrypt.hash("admin123",    10);
   const passAnalista = await bcrypt.hash("analista123", 10);
