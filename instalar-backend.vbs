@@ -29,23 +29,23 @@ If Not oFSO.FileExists("C:\Program Files\nodejs\node.exe") Then
     WScript.Quit 1
 End If
 
-' Verifica se o iisentry.cjs existe
+' Verifica se o server.js existe
 Dim sScript
-sScript = "C:\inetpub\vhosts\cbm.am.gov.br\itsm\backend\src\iisentry.cjs"
+sScript = "C:\inetpub\vhosts\cbm.am.gov.br\chamados\backend\src\server.js"
 If Not oFSO.FileExists(sScript) Then
-    MsgBox "ERRO: iisentry.cjs nao encontrado em:" & vbCrLf & sScript, _
-           vbCritical, "CBMAM ITSM"
+    MsgBox "ERRO: server.js nao encontrado em:" & vbCrLf & sScript, _
+           vbCritical, "CBMAM Chamados"
     WScript.Quit 1
 End If
 
 ' Cria XML da tarefa agendada (UTF-16 para Task Scheduler)
-sTempXml = oFSO.GetSpecialFolder(2) & "\cbmam-itsm-task.xml"
+sTempXml = oFSO.GetSpecialFolder(2) & "\cbmam-chamados-task.xml"
 
 sXml = "<?xml version=""1.0"" encoding=""UTF-16""?>" & vbCrLf & _
 "<Task version=""1.2"" xmlns=""http://schemas.microsoft.com/windows/2004/02/mit/task"">" & vbCrLf & _
 "  <RegistrationInfo>" & vbCrLf & _
 "    <Author>CBMAM-TI</Author>" & vbCrLf & _
-"    <Description>Backend Node.js do ITSM CBMAM - porta 4000</Description>" & vbCrLf & _
+"    <Description>Backend Node.js do CBMAM Chamados - porta 4000</Description>" & vbCrLf & _
 "  </RegistrationInfo>" & vbCrLf & _
 "  <Triggers>" & vbCrLf & _
 "    <BootTrigger><Enabled>true</Enabled></BootTrigger>" & vbCrLf & _
@@ -70,8 +70,8 @@ sXml = "<?xml version=""1.0"" encoding=""UTF-16""?>" & vbCrLf & _
 "  <Actions Context=""Author"">" & vbCrLf & _
 "    <Exec>" & vbCrLf & _
 "      <Command>C:\PROGRA~1\nodejs\node.exe</Command>" & vbCrLf & _
-"      <Arguments>src\iisentry.cjs</Arguments>" & vbCrLf & _
-"      <WorkingDirectory>C:\inetpub\vhosts\cbm.am.gov.br\itsm\backend</WorkingDirectory>" & vbCrLf & _
+"      <Arguments>src\server.js</Arguments>" & vbCrLf & _
+"      <WorkingDirectory>C:\inetpub\vhosts\cbm.am.gov.br\chamados\backend</WorkingDirectory>" & vbCrLf & _
 "    </Exec>" & vbCrLf & _
 "  </Actions>" & vbCrLf & _
 "</Task>"
